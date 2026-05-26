@@ -263,19 +263,10 @@ let state = { d: 0, n: 1, reveal: 'none' };
 
 function toggleTheme() {
   const html = document.documentElement;
-  const next = html.dataset.theme === 'light' ? 'dark' : 'light';
-  html.dataset.theme = next === 'dark' ? '' : 'light';
-  localStorage.setItem('oekaki-theme', next);
-  document.getElementById('btn-theme').textContent = next === 'light' ? '◑' : '◐';
+  const light = html.dataset.theme === 'light';
+  html.dataset.theme = light ? '' : 'light';
+  document.getElementById('btn-theme').textContent = light ? '◐' : '◑';
 }
-
-(function initTheme() {
-  const saved = localStorage.getItem('oekaki-theme');
-  if (saved === 'light') {
-    document.documentElement.dataset.theme = 'light';
-    document.getElementById('btn-theme').textContent = '◑';
-  }
-})();
 
 function byDiff(d) { return PUZZLES.filter(p => p.d === d); }
 function current() { return byDiff(state.d).find(p => p.n === state.n); }
