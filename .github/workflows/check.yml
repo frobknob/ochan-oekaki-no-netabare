@@ -1,0 +1,40 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 9 * * 1'  # weekly — catches link rot
+
+jobs:
+  links:
+    name: link checker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lycheeverse/lychee-action@v2
+        with:
+          args: >
+            --no-progress
+            --timeout 20
+            --max-retries 3
+            --exclude 'https://frobknob.github.io'
+            'docs/**/*.html'
+          fail: true
+
+  html:
+    name: html validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install -g html-validate
+      - run: html-validate --config .htmlvalidate.json docs/*.html
+
+  lint:
+    name: python lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/ruff-action@v3
+        with:
+          args: check

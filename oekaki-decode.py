@@ -8,7 +8,8 @@ Decodes all 372 nonogram puzzles from the ROM file.
 Usage: python3 oekaki-decode.py /path/to/oekaki.ws [output.json]
 """
 
-import json, sys
+import json
+import sys
 
 # ROM layout constants
 LUT_BASE = 0x20690      # File offset of lookup table (372 × 4 bytes)

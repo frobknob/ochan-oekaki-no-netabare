@@ -3,7 +3,8 @@
 Generate docs/oekaki/index.html from decoded puzzle data.
 Run from repo root: python3 docs/oekaki/build.py
 """
-import json, sys, os
+import json
+import os
 
 import importlib.util
 _here = os.path.dirname(os.path.abspath(__file__))
