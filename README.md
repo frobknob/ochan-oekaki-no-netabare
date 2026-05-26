@@ -22,20 +22,9 @@ Open `docs/index.html` directly in a browser, or use the GitHub Pages link above
 
 ## Rebuilding from ROM
 
-The puzzle data is baked into `docs/index.html` at build time.
-To regenerate it from the ROM:
-
-1. Obtain the ROM (you know where).
-2. Place it at `/tmp/oekaki.ws`.
-3. Run from the repo root:
-   ```
-   python3 build.py
-   ```
-4. `docs/index.html` is rewritten.
-
-The decoder (`oekaki-decode.py`) can also be run standalone:
 ```
 python3 oekaki-decode.py /path/to/oekaki.ws [output.json]
+python3 build.py  # regenerates docs/index.html, expects ROM at /tmp/oekaki.ws
 ```
 
 ---
