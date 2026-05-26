@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>how this got made — おーちゃんのおえかきロジック solutions</title>
+<meta name="description" content="How the solution viewer for O-Chan no Oekaki Logic was built: ROM archaeology, MAME memory analysis, and why giving up was not an option.">
+<style>
+:root {
+  --bg: #1a1a2e;
+  --surface: #16213e;
+  --border: #0f3460;
+  --accent: #e94560;
+  --text: #e0e0e0;
+  --dim: #888;
+  --grid-line: rgba(255,255,255,0.018);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg); color: var(--text); font-family: 'Courier New', monospace;
+  min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+  padding: 40px 20px;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.wrap { max-width: 640px; width: 100%; }
+h1 { font-size: 1rem; color: var(--accent); letter-spacing: 2px; margin-bottom: 4px; }
+.back { color: var(--dim); font-size: 0.75rem; margin-bottom: 32px; }
+.back a { color: var(--accent); text-decoration: none; }
+.back a:hover { text-decoration: underline; }
+p { line-height: 1.8; font-size: 0.88rem; margin-bottom: 1.2em; color: var(--text); }
+.step { display: flex; gap: 12px; margin-bottom: 1em; }
+.step-num { color: var(--accent); flex-shrink: 0; font-size: 0.88rem; min-width: 2em; }
+.step-body { font-size: 0.88rem; line-height: 1.8; }
+.aside { color: var(--dim); font-size: 0.8rem; }
+.rule { border: none; border-top: 1px solid var(--border); margin: 2em 0; }
+code { color: var(--accent); font-family: inherit; font-size: 0.85em; }
+footer { margin-top: 40px; color: var(--dim); font-size: 0.7rem; text-align: center; line-height: 1.8; }
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>how this got made</h1>
+  <p class="back"><a href="index.html">&larr; back to the viewer</a></p>
+
+  <p>o-chan no oekaki logic (おーちゃんのおえかきロジック) is a lovely nonogram puzzle game
+  for the WonderSwan, released by SunSoft in 2000. if you're here you know exactly
+  what this is and don't want to read this crap.</p>
+
+  <p>the thing is, i like picross/nonogram games way too much. after finishing all the
+  Mario Picross games, then the Picross NPs, then basically any other version i could find,
+  i eventually ran across the WonderSwan. it's a ridiculously cool console that didn't get
+  enough attention &mdash; your favorite retro-game-youtuber-person will surely give you
+  the details so i don't have to.</p>
+
+  <p>anyway, the game is in Japanese and i couldn't find any solutions when i got stuck
+  on 中級 #18.</p>
+
+  <p>as a bad gamer that doesn't know when to give up, i used all of my laziness and
+  Claude tokens to figure out this ROM and come up with a friendly helper. hopefully
+  there's at least one other person out there who is also lazy and/or stuck on this game.</p>
+
+  <hr class="rule">
+
+  <p>if you're somehow still interested, here's how it happened:</p>
+
+  <div class="step">
+    <span class="step-num">1.</span>
+    <span class="step-body">me: crap, i'm stuck. internet has no answers.</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">2.</span>
+    <span class="step-body">claude: why does the internet have no answers? find answers.</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">3.</span>
+    <span class="step-body">
+      claude: &ldquo;i can do that, no problem, like 10 minutes.&rdquo;<br>
+      <span class="aside">(24 hours and some Anthropic revenue later)</span>
+    </span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">4.</span>
+    <span class="step-body">
+      claude: static analysis: NEVER ENOUGH TOKENS nom nom. dynamic analysis: kept hitting walls.
+      finally got there with memory analysis inside a running MAME session +
+      <a href="https://www.capstone-engine.org" target="_blank" rel="noopener" style="color:var(--accent)">Capstone</a>
+      for x86 disassembly. result: this page.
+    </span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">5.</span>
+    <span class="step-body">me: <a href="https://www.youtube.com/watch?v=6xfApyRDkrU" target="_blank" rel="noopener" style="color:var(--accent)">i, for one, welcome our robot overlords</a></span>
+  </div>
+
+  <hr class="rule">
+
+  <p>viewer code released under
+  <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>.
+  use it, modify it, redistribute it with attribution.
+  puzzle content &copy; SunSoft 2000 / Bandai Namco Holdings.</p>
+
+</div>
+<footer>
+  <a href="index.html">viewer</a>
+  &mdash;
+  <a href="https://github.com/frobknob/ochan-oekaki-no-netabare">source</a>
+  &mdash;
+  <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>
+</footer>
+</body>
+</html>
