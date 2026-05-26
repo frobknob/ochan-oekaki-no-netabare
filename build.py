@@ -117,6 +117,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
   --empty-border: #1a1a3a;
   --ring-border: #3080cc;
   --ring-e-border: #1a2a3a;
+  --grid5: #4a4a6a;
 }
 [data-theme="light"] {
   --bg: #f5f0ff;
@@ -136,11 +137,13 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
   --empty-border: #8ae8e8;
   --ring-border: #009090;
   --ring-e-border: #5ad0d0;
+  --grid5: #9090b0;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   background: var(--bg); color: var(--text); font-family: 'Courier New', monospace;
-  min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px;
+  min-height: 100vh; width: 100%; overflow-x: hidden;
+  display: flex; flex-direction: column; align-items: center; padding: 20px;
   background-image:
     linear-gradient(var(--grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
@@ -237,7 +240,7 @@ select:focus { outline: 1px solid var(--accent); }
 }
 .row-clue span { white-space: nowrap; }
 
-#grid-wrap { overflow-x: auto; max-width: 100%; padding-bottom: 4px; }
+#grid-wrap { overflow-x: auto; width: fit-content; max-width: 100%; padding-bottom: 4px; }
 
 .cell { width: var(--cell); height: var(--cell); border: 1px solid var(--cell-border); flex-shrink: 0; }
 .cell.hidden { background: var(--cell-hidden); }
@@ -245,6 +248,8 @@ select:focus { outline: 1px solid var(--accent); }
 .cell.empty  { background: var(--empty-revealed); border-color: var(--empty-border); }
 .cell.ring-f { background: var(--ring); border-color: var(--ring-border); }
 .cell.ring-e { background: var(--ring-empty); border-color: var(--ring-e-border); }
+.cell.b5r { border-right: 2px solid var(--grid5); }
+.cell.b5b { border-bottom: 2px solid var(--grid5); }
 
 .controls { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 button {
@@ -392,13 +397,16 @@ function draw() {
 
   function cellClass(r, c) {
     const filled = sol[r][c] === 'X';
-    if (state.reveal === 'none') return 'cell hidden';
+    let base = 'cell';
+    if ((c + 1) % 5 === 0 && c < C - 1) base += ' b5r';
+    if ((r + 1) % 5 === 0 && r < R - 1) base += ' b5b';
+    if (state.reveal === 'none') return base + ' hidden';
     if (state.reveal === 'ring') {
       const onRing = r === 0 || r === R-1 || c === 0 || c === C-1;
-      if (!onRing) return 'cell hidden';
-      return filled ? 'cell ring-f' : 'cell ring-e';
+      if (!onRing) return base + ' hidden';
+      return base + (filled ? ' ring-f' : ' ring-e');
     }
-    return filled ? 'cell filled' : 'cell empty';
+    return base + (filled ? ' filled' : ' empty');
   }
 
   const maxColDepth = Math.max(...p.cc.map(c => c.length));
